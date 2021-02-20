@@ -1,0 +1,102 @@
+#log4j2 configuration
+Configuration:
+  status: INFO
+  appenders:
+    Console:
+      name: LogToConsole
+      PatternLayout:
+        Pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+    RollingFile:
+      - name: LogToRollingFile
+        fileName: logs/application.log
+        filePattern: "logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz"
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 10MB
+        DefaultRollOverStrategy:
+          max: 10
+  Loggers:
+    logger:
+      - name: com.zaxxer.hikari.HikariConfig
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile
+      - name: com.zaxxer.hikari
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile        
+      - name: com.att.guardian
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile
+      - name: org.springframework
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile
+      - name: org.springframework.web
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile          
+      - name: org.hibernate.SQL
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile
+      # Set INFO to see the allocated port    
+      - name: org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainer
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile
+      # Get info on failed OAuth access token validations
+      - name: org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile
+      # Get info regarding connection to the cofig server and retries if required
+      - name: org.springframework.cloud.config.client.ConfigServicePropertySourceLocator
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile
+      - name: org.springframework.retry.support.RetryTemplate
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile
+       # Set DEBUG level on Hystrix to get an error message when a fallback method is used.
+      - name: com.netflix.hystrix
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile
+      - name: com.netflix.hystrix.strategy.properties.HystrixPropertiesChainedArchaiusProperty
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile                                                                            
+    Root:
+      level: error
+      AppenderRef:
+          - ref: LogToConsole
+          - ref: LogToRollingFile  
