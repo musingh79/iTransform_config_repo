@@ -1,0 +1,38 @@
+spring:
+  profiles: local
+service:
+  defaultMinMs: 5
+  defaultMaxMs: 20
+  spring.zipkin.base-url: http://localhost:9411/  
+ # enable H2 web console and set url for web console
+  # http://localhost:8080/console
+  h2:
+    console:
+      enabled: true
+      path: /h2-console     
+  datasource:
+    url: jdbc:h2:mem:itransform
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+security:
+  oauth2:
+    client:      
+      client-id: clientId
+      client-secret: secret
+      accessTokenUri: http://localhost:9001/oauth/token
+      #userAuthorizationUri: https://oauthapp.stage.att.com/mga/sps/oauth/oauth20/authorize
+      grant-type: password
+    resource:
+      #token-info-uri: https://oauthapp.stage.att.com/mga/sps/oauth/oauth20/introspect
+      user-info-uri: http://localhost:9001/profile/me
+      #user-info-uri: http://localhost:9001/profile/me
+      #id: https://dev-musingh.auth0.com/api/v2/ 
+      #jwk:
+        #key-set-uri: https://dev-musingh.auth0.com/.well-known/jwks.json       
+        #key-set-uri: https://dev-musingh.auth0.com/.well-known/jwks.json      
